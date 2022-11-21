@@ -43,11 +43,27 @@ namespace Classes_learn
 				Console.WriteLine ("#{0} - {1}", i, this.id[i]);
 			}
 		}
-		
+		public bool isExisting(int id)
+		{
+			return false;
+		}
 		~ID_TABLE()
 		{
 			
 		}
+	}
+
+	public class Fruit
+	{
+		public int x = 5, y = 3, z = 2;
+	}
+	
+	public class Pear : Fruit {
+		public new int x = 4, y = 1, z = 7;
+	}
+
+	public class ClasBkakoynibudtam : Fruit {
+		public new int x = 8;
 	}
 	
 	public class Item
@@ -80,7 +96,42 @@ namespace Classes_learn
 		private int FSideA;
 		private int FSideB;
 		private string FName;
+
+		public int Perimeter
+		{
+			get
+			{
+				return (FSideA + FSideB) * 2;
+			}
+		}
+
+		public string Name
+		{
+			set
+			{
+				FName = value;
+			}
+			get 
+			{
+				return FName;
+			}
+		}
 		
+		public int SideA
+		{
+			get
+			{
+				return FSideA;
+			}
+		}
+
+		public int SideB
+		{
+			get
+			{
+				return FSideB;
+			}
+		}
 		public Rectangle():base()
 		{
 			this.FSideA = 1;
@@ -95,36 +146,15 @@ namespace Classes_learn
 			this.FSideA = FSideA;
 			this.FSideB = FSideB;
 		}
-		public int GetA()
-		{
-			return this.FSideA;
-		}
-		public int GetB()
-		{
-			return this.FSideB;
-		}
-		public int GetPerimeter()
-		{
-			return (this.FSideA + this.FSideB) * 2;
-		}
-		public void SetName(string FName)
-		{
-			this.FName = FName;
-		}
-		public string GetFName()
-		{
-			return FName;
-		}
-		
 		~Rectangle()
 		{
-			System.Diagnostics.Trace.WriteLine(this.GetFName() + " destroyed");
+			System.Diagnostics.Trace.WriteLine(this.Name + " destroyed");
 		}
 	}
 	
 	public class MyArray<T>:Item
 	{
-		private T[] massive = new T[0];
+		private T[] array = new T[0];
 		private int index;
 		
 		public MyArray():base()
@@ -134,39 +164,39 @@ namespace Classes_learn
 		
 		public MyArray(int size):base()
 		{
-			Array.Resize(ref this.massive, size);
+			Array.Resize(ref this.array, size);
 			this.index = 0;
 		}
 		public void Print(bool dmode = false)
 		{
-			for (int i = 0; i < this.massive.Length; i++)
+			for (int i = 0; i < this.array.Length; i++)
 			{
-				if (dmode) Console.WriteLine("massive [{0}] = {1} ", i,  this.massive[i]);
-				else Console.Write("{0} ", this.massive[i]);
+				if (dmode) Console.WriteLine("array [{0}] = {1} ", i,  this.array[i]);
+				else Console.Write("{0} ", this.array[i]);
 			}
 		}
 		public void Resize(int new_size)
 		{
-			Array.Resize(ref this.massive, new_size);
+			Array.Resize(ref this.array, new_size);
 		}
 		public void Add(T item)
 		{
-			if (this.massive.Length <= index) throw new Exception("OUT OF MASSIVE");
-			this.massive[this.index++] = item;
+			if (this.array.Length <= index) throw new Exception("OUT OF array");
+			this.array[this.index++] = item;
 		}
 		public T GetLastElem()
 		{
-			if (this.massive.Length <= index) throw new Exception("OUT OF MASSIVE");
-			return this.massive[this.index--];
+			if (this.array.Length <= index) throw new Exception("OUT OF array");
+			return this.array[this.index--];
 		}
 		public T GetByIndex(int index)
 		{
 			if (index > this.index) return default(T);
-			return this.massive[index];
+			return this.array[index];
 		}
 		public int GetSize()
 		{
-			return this.massive.Length;
+			return this.array.Length;
 		}
 		public bool isItemExisted(int index)
 		{
@@ -209,7 +239,7 @@ namespace Classes_learn
 			arr.Print(true);
 			*/
 			// ------------------------------ THE MOST INTERESTING IS HERE
-			Console.WriteLine("\tMassive of rectangles");
+			Console.WriteLine("\tarray of rectangles");
 			MyArray<Rectangle> array = new MyArray<Rectangle>();
 			while(true)
 			{
@@ -219,20 +249,20 @@ namespace Classes_learn
 					string msg = Console.ReadLine();
 					if (msg == "help")
 					{
-						Console.WriteLine("size     - get current size of massive");
-						Console.WriteLine("resize   - edit current size of massive");
-						Console.WriteLine("makerect - make new rect and push it to massive");
+						Console.WriteLine("size     - get current size of array");
+						Console.WriteLine("resize   - edit current size of array");
+						Console.WriteLine("makerect - make new rect and push it to array");
 						Console.WriteLine("printall - print all elements");
 						Console.WriteLine("printi   - print i element");
 						Console.WriteLine("exit     - exit from program");
 					}
 					else if (msg == "size")
 					{ 
-						Console.WriteLine("Size of massive = {0}", array.GetSize());
+						Console.WriteLine("Size of array = {0}", array.GetSize());
 					}
 					else if (msg == "resize")
 					{
-						Console.Write("New size of massive = ");
+						Console.Write("New size of array = ");
 						array.Resize(int.Parse(Console.ReadLine()));
 					}
 					else if (msg == "exit")
@@ -248,13 +278,7 @@ namespace Classes_learn
 						Console.Write("Side B of rectangle = ");
 						int sideB = int.Parse(Console.ReadLine());
 						
-						Rectangle temp = new Rectangle(name, sideA, sideB);  
-						
-						Console.WriteLine(" {0} {1} {2} ", name, sideA, sideB);
-						Console.WriteLine(" {0} {1} {2} {3}", temp.GetFName(), temp.GetA(), temp.GetB(), temp.GetId());
-						
-						
-						array.Add(temp);
+						array.Add(new Rectangle(name, sideA, sideB));
 					}
 					else if (msg == "printall")
 					{
@@ -264,10 +288,10 @@ namespace Classes_learn
 							{
 								Rectangle temp = array.GetByIndex(i);
 								Console.WriteLine("\tRectangle {0}", i);
-								Console.WriteLine("Name   = {0}", temp.GetFName());
+								Console.WriteLine("Name   = {0}", temp.Name);
 								//Console.WriteLine("    ID = {0}", temp.GetId());
-								Console.WriteLine("Side A = {0}", temp.GetA());
-								Console.WriteLine("Side B = {0}", temp.GetB());
+								Console.WriteLine("Side A = {0}", temp.SideA);
+								Console.WriteLine("Side B = {0}", temp.SideB);
 							}
 						}
 					}
@@ -302,4 +326,12 @@ namespace Classes_learn
 			
 			/*
 			ID_TABLE id_table = new ID_TABLE();
-		
+			id_table.add(1);
+			id_table.add(2);
+			id_table.add(1);
+			id_table.print_id_table();
+			*/
+		}
+	}
+}
+			
