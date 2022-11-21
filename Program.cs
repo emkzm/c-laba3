@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using static System.Console;
 
 namespace Classes_learn
 {
@@ -58,12 +59,34 @@ namespace Classes_learn
 		public int x = 5, y = 3, z = 2;
 	}
 	
-	public class Pear : Fruit {
+	public class Pear : Fruit 
+	{
 		public new int x = 4, y = 1, z = 7;
+		public void print()
+		{
+			Console.WriteLine(" Pear Native  : x = {0} y = {1} z = {2}", this.x, this.y, this.z);
+			Console.WriteLine(" Pear Parent  : x = {0} y = {1} z = {2}", base.x, base.y, base.z);
+		}
 	}
 
-	public class ClasBkakoynibudtam : Fruit {
-		public new int x = 8;
+	public class Bear : Pear 
+	{
+		public new int x = 999, y = 1231, z = 71234;
+		public void print()
+		{
+			Console.WriteLine(" Bear Native  : x = {0} y = {1} z = {2}", this.x, this.y, this.z);
+			Console.WriteLine(" Bear Parent  : x = {0} y = {1} z = {2}", base.x, base.y, base.z);
+		}
+	}
+
+	public class Banana : Fruit 
+	{
+		public new int x;
+		public void print()
+		{
+			Console.WriteLine(" Banana Native  : x = {0} y = {1} z = {2}", this.x, this.y, this.z);
+			Console.WriteLine(" Banana Parent  : x = {0} y = {1} z = {2}", base.x, base.y, base.z);
+		}
 	}
 	
 	public class Item
@@ -209,9 +232,42 @@ namespace Classes_learn
 		}
 	}
 	
+	public class ClassA
+	{
+		public int a;
+		public ClassA(int a)
+		{
+			this.a = a;
+		}
+
+	}
+
+	public class ClassB : ClassA
+	{
+		public int b;
+		public ClassB(int a, int b) : base(a)
+		{
+			this.b = b;
+		}
+	}
+
+	public class ClassC
+	{
+		public int a;
+		public ClassC(int a)
+		{
+			this.a = a;
+		}
+	}
+
 	
 	public static class Program
 	{
+		public static void Cout(this string str, params object[] args)
+		{
+			Console.WriteLine(str, args);
+		}
+
 		public static void Main()
 		{
 			/*
@@ -239,7 +295,8 @@ namespace Classes_learn
 			arr.Print(true);
 			*/
 			// ------------------------------ THE MOST INTERESTING IS HERE
-			Console.WriteLine("\tarray of rectangles");
+			
+			/*Console.WriteLine("\tarray of rectangles");
 			MyArray<Rectangle> array = new MyArray<Rectangle>();
 			while(true)
 			{
@@ -308,7 +365,44 @@ namespace Classes_learn
 			}
 			
 			Console.WriteLine("Good bye...");
+			*/
+
+			/*
+			Pear pear = new Pear(); // GRUSHA
+			Banana banana = new Banana();
+			Bear bear = new Bear();
 			
+			pear.print();
+			Console.WriteLine();
+			banana.print();
+			Console.WriteLine();
+			bear.print();
+			"Hello World".Cout();
+			*/
+
+			ClassA obja = new ClassA(5);
+			ClassB objb = new ClassB(10, 15);
+			ClassC objc = new ClassC(25);
+			ClassB objb2;
+
+			// objb2 = (ClassB) obja; // improper cast
+
+			"obja a = {0}".Cout(obja.a);
+			"objb a = {0}\nobjb b = {1}".Cout(objb.a, objb.b);
+			"objc a = {0}".Cout(objc.a);
+			"obja b = {0}".Cout(objb2.b);
+
+			obja = objb; // obja is now pointing to ClassB
+			"".Cout();
+			objb.a = 69;
+			
+			objb2 = (ClassB) obja; // proper cast
+			 
+			"obja a = {0}".Cout(obja.a);
+			"objb a = {0}\nobjb b = {1}".Cout(objb.a, objb.b);
+			"objc a = {0}".Cout(objc.a);
+			"obja b = {0}".Cout(objb2.b);
+
 			//------------------------------------
 					
 			//int n = int.Parse(Console.ReadLine());
@@ -334,4 +428,3 @@ namespace Classes_learn
 		}
 	}
 }
-			
