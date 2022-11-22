@@ -402,7 +402,7 @@ namespace Classes_learn
 			"objb a = {0}\nobjb b = {1}".Cout(objb.a, objb.b);
 			"objc a = {0}".Cout(objc.a);
 			"obja b = {0}".Cout(objb2.b);
-
+			
 			//------------------------------------
 					
 			//int n = int.Parse(Console.ReadLine());
